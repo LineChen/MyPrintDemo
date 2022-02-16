@@ -1,5 +1,7 @@
 package com.line.scan
 
+import android.bluetooth.BluetoothDevice
+
 /**
  * created by chenliu on  2022/2/16 11:01 上午.
  */
@@ -15,14 +17,14 @@ interface BluetoothScanListener {
      */
     fun onBluetoothClosed()
 
-    fun onBoundDevices(list: List<ScannedDevice>)
+    fun onBoundDevices(list: List<BluetoothDevice>)
 
     fun onScanStarted()
 
     /**
      * 扫描结束
      */
-    fun onScanFound(device: ScannedDevice)
+    fun onScanFound(device: BluetoothDevice)
 
     fun onScanFinished()
 

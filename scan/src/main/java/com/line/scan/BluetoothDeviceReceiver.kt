@@ -9,7 +9,7 @@ import android.content.Intent
 /**
  * created by chenliu on  2022/2/16 11:30 上午.
  */
-class BluetoothDeviceReceiver(private val onFound: (ScannedDevice) -> Unit, private val onFinished: () -> Unit) :
+class BluetoothDeviceReceiver(private val onFound: (BluetoothDevice) -> Unit, private val onFinished: () -> Unit) :
     BroadcastReceiver() {
 
 
@@ -18,7 +18,10 @@ class BluetoothDeviceReceiver(private val onFound: (ScannedDevice) -> Unit, priv
             if (intent.action == BluetoothDevice.ACTION_FOUND) {
                 //搜索到的新设备
                 val btd = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                onFound.invoke(ScannedDevice(btd!!.address, btd.name))
+                btd?.let {
+                    onFound.invoke(btd)
+                }
+                return@let
             } else if (intent.action == BluetoothAdapter.ACTION_DISCOVERY_FINISHED) {
                 onFinished.invoke()
             }

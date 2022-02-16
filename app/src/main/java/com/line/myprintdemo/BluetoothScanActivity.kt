@@ -1,6 +1,7 @@
 package com.line.myprintdemo
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.line.scan.BluetoothScanListener
 import com.line.scan.BluetoothScanManager
-import com.line.scan.ScannedDevice
-import org.w3c.dom.Text
 
 /**
  * created by chenliu on  2022/2/16 1:15 下午.
@@ -26,7 +25,7 @@ class BluetoothScanActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var tvScanFinished: TextView
 
-    private val deviceList = mutableListOf<ScannedDevice>()
+    private val deviceList = mutableListOf<BluetoothDevice>()
 
     private val adapter = DeviceAdapter()
 
@@ -61,7 +60,7 @@ class BluetoothScanActivity : AppCompatActivity() {
                 startActivityForResult(intent, 1)
             }
 
-            override fun onBoundDevices(list: List<ScannedDevice>) {
+            override fun onBoundDevices(list: List<BluetoothDevice>) {
                 deviceList.clear()
                 deviceList.addAll(list)
                 adapter.notifyDataSetChanged()
@@ -72,7 +71,7 @@ class BluetoothScanActivity : AppCompatActivity() {
                 tvScanFinished.visibility = View.GONE
             }
 
-            override fun onScanFound(device: ScannedDevice) {
+            override fun onScanFound(device: BluetoothDevice) {
                 if (!deviceList.contains(device) && !device.name.isNullOrEmpty()) {
                     deviceList.add(device)
                 }

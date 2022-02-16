@@ -2,6 +2,7 @@ package com.line.scan
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothDevice.ACTION_FOUND
 import android.content.Context
 import android.content.IntentFilter
@@ -53,10 +54,10 @@ class BluetoothScanManager(private val context: Context) : IBluetoothScan {
                 bluetoothScanListener?.onScanStarted()
             }
 
-            val list = mutableListOf<ScannedDevice>()
+            val list = mutableListOf<BluetoothDevice>()
             bluetoothAdapter.bondedDevices.forEach { d ->
                 if (!d?.name.isNullOrEmpty()) {
-                    list.add(ScannedDevice(d!!.address, d.name))
+                    list.add(d)
                 }
             }
             if (list.isNotEmpty()) {
