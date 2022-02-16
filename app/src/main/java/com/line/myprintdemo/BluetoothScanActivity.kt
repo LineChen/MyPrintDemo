@@ -24,6 +24,10 @@ import com.line.scan.BluetoothScanManager
  */
 class BluetoothScanActivity : AppCompatActivity() {
 
+    companion object {
+        private const val REQUEST_ENABLE_BT = 1
+    }
+
     private lateinit var rvList: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var tvScanFinished: TextView
@@ -60,7 +64,7 @@ class BluetoothScanActivity : AppCompatActivity() {
             override fun onBluetoothClosed() {
                 //请求用户开启
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(intent, 1)
+                startActivityForResult(intent, REQUEST_ENABLE_BT)
             }
 
             override fun onBoundDevices(list: List<BluetoothDevice>) {
