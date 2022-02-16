@@ -1,7 +1,10 @@
 package com.line.myprintdemo
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothClass
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothDevice.BOND_BONDED
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -61,8 +64,11 @@ class BluetoothScanActivity : AppCompatActivity() {
             }
 
             override fun onBoundDevices(list: List<BluetoothDevice>) {
-                deviceList.clear()
-                deviceList.addAll(list)
+                list.forEach { device ->
+                    if (!deviceList.contains(device) && !device.name.isNullOrEmpty()) {
+                        deviceList.add(device)
+                    }
+                }
                 adapter.notifyDataSetChanged()
             }
 
@@ -99,10 +105,23 @@ class BluetoothScanActivity : AppCompatActivity() {
             return DeviceHolder(itemView)
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBindViewHolder(holder: DeviceHolder, position: Int) {
             val model = deviceList[position]
             holder.tvName.text = model.name
             holder.tvAddress.text = model.address
+            val bluetoothClass = model.bluetoothClass
+            val deviceClass = bluetoothClass.deviceClass; //设备类型（音频、手机、电脑、音箱等等）
+            val majorDeviceClass = bluetoothClass.majorDeviceClass;//具体的设备类型（例如音频设备又分为音箱、耳机、麦克风等等）
+            holder.tvDeviceType.text = "${
+                getTypeStr(
+                    deviceClass,
+                    majorDeviceClass
+                )
+            } （deviceClass= $deviceClass, majorDeviceClass = $majorDeviceClass）"
+
+            holder.tvBound.visibility = if (model.bondState == BOND_BONDED) View.VISIBLE else View.GONE
+
         }
 
         override fun getItemCount(): Int {
@@ -114,6 +133,44 @@ class BluetoothScanActivity : AppCompatActivity() {
     private inner class DeviceHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvName: TextView = itemView.findViewById(R.id.tvName)
         val tvAddress: TextView = itemView.findViewById(R.id.tvAddress)
+        val tvDeviceType: TextView = itemView.findViewById(R.id.tvDeviceType)
+        val tvBound: TextView = itemView.findViewById(R.id.tvBound)
+    }
+
+    private fun getTypeStr(deviceClass: Int, majorDeviceClass: Int): String {
+        when {
+            deviceClass == BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET -> {
+                //音箱
+                return "音箱"
+            }
+            deviceClass == BluetoothClass.Device.AUDIO_VIDEO_MICROPHONE -> {
+                //麦克风
+                return "麦克风"
+            }
+            deviceClass == BluetoothClass.Device.AUDIO_VIDEO_HEADPHONES -> {
+                //耳机
+                return "耳机"
+            }
+            majorDeviceClass == BluetoothClass.Device.Major.COMPUTER -> {
+                //电脑
+                return "电脑"
+            }
+            majorDeviceClass == BluetoothClass.Device.Major.PHONE -> {
+                //手机
+                return "手机"
+            }
+            majorDeviceClass == BluetoothClass.Device.Major.HEALTH -> {
+                //健康类设备
+                return "音健康类设备箱"
+            }
+            majorDeviceClass == BluetoothClass.Device.Major.IMAGING -> {
+                return "打印机"
+            }
+            else -> {
+                //其它蓝牙设备
+                return "其它蓝牙设备"
+            }
+        }
     }
 
 }
