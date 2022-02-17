@@ -1,3 +1,4 @@
+include ':connect'
 include ':scan'
 include ':app'
 rootProject.name = "MyPrintDemo"

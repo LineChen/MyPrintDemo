@@ -10,14 +10,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.line.connect.ConnectThread
 import com.line.scan.BluetoothScanListener
-import com.line.scan.BluetoothScanManager
+import com.line.scan.BluetoothScanService
 
 /**
  * created by chenliu on  2022/2/16 1:15 下午.
@@ -26,6 +28,7 @@ class BluetoothScanActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_ENABLE_BT = 1
+        private const val TAG = "BluetoothScanActivity"
     }
 
     private lateinit var rvList: RecyclerView
@@ -36,14 +39,14 @@ class BluetoothScanActivity : AppCompatActivity() {
 
     private val adapter = DeviceAdapter()
 
-    private val bluetoothScanManager = BluetoothScanManager(this)
+    private val bluetoothScanManager = BluetoothScanService(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth_scan)
         rvList = findViewById(R.id.rvList)
         progressBar = findViewById(R.id.progressBar)
-        tvScanFinished = findViewById(R.id.tvScanFinished)
+        tvScanFinished = findViewById(R.id.tvStatus)
 
         rvList.layoutManager = LinearLayoutManager(this)
         rvList.adapter = adapter
@@ -126,6 +129,14 @@ class BluetoothScanActivity : AppCompatActivity() {
 
             holder.tvBound.visibility = if (model.bondState == BOND_BONDED) View.VISIBLE else View.GONE
 
+
+            holder.btnConnect.setOnClickListener {
+                BluetoothConnectActivity.startBluetoothConnectActivity(
+                    this@BluetoothScanActivity,
+                    model.name,
+                    model.address
+                )
+            }
         }
 
         override fun getItemCount(): Int {
@@ -139,6 +150,7 @@ class BluetoothScanActivity : AppCompatActivity() {
         val tvAddress: TextView = itemView.findViewById(R.id.tvAddress)
         val tvDeviceType: TextView = itemView.findViewById(R.id.tvDeviceType)
         val tvBound: TextView = itemView.findViewById(R.id.tvBound)
+        val btnConnect: Button = itemView.findViewById(R.id.btnConnect)
     }
 
     private fun getTypeStr(deviceClass: Int, majorDeviceClass: Int): String {

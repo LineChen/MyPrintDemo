@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name=".BluetoothScanActivity"/>
+        <activity android:name=".BluetoothConnectActivity"/>
     </application>
 
 </manifest>

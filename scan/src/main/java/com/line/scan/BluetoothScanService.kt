@@ -12,7 +12,7 @@ import android.os.Looper
 /**
  * created by chenliu on  2022/2/16 10:47 上午.
  */
-class BluetoothScanManager(private val context: Context) : IBluetoothScan {
+class BluetoothScanService(private val context: Context) : IBluetoothScan {
 
     companion object {
         private const val START_SCAN = 1
