@@ -14,16 +14,8 @@ import android.os.Looper
  */
 class BluetoothScanService(private val context: Context) : IBluetoothScan {
 
-    companion object {
-        private const val START_SCAN = 1
-        private const val STOP_SCAN = 2
-
-    }
-
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private var bluetoothScanListener: BluetoothScanListener? = null
-
-    private val uiHandler = Handler(Looper.getMainLooper())
 
     //注册蓝牙广播接收者
     private val bluetoothDeviceReceiver = BluetoothDeviceReceiver(onFound = {
