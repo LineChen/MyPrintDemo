@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.line.connect.ConnectThread
 import com.line.scan.BluetoothScanListener
 import com.line.scan.BluetoothScanService
 
