@@ -66,7 +66,7 @@ class BluetoothScanService(private val context: Context) : IBluetoothScan {
         try {
             bluetoothAdapter?.let {
                 if (bluetoothAdapter.isDiscovering) {
-                    //开启蓝牙扫描
+                    //取消蓝牙扫描
                     bluetoothAdapter.cancelDiscovery()
                     bluetoothScanListener?.onScanCanceled()
                 }
