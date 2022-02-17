@@ -16,68 +16,55 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] horizontalPositioning() {
-        byte[] data = new byte[]{9};
-        return data;
+        return new byte[]{9};
     }
 
     public static byte[] printAndFeedLine() {
-        byte[] data = new byte[]{10};
-        return data;
+        return new byte[]{10};
     }
 
     public static byte[] printAndBackStandardmodel() {
-        byte[] data = new byte[]{12};
-        return data;
+        return new byte[]{12};
     }
 
     public static byte[] PrintAndCarriageReturn() {
-        byte[] data = new byte[]{13};
-        return data;
+        return new byte[]{13};
     }
 
     public static byte[] canclePrintDataByPagemodel() {
-        byte[] data = new byte[]{24};
-        return data;
+        return new byte[]{24};
     }
 
     public static byte[] sendRealtimestatus(int n) {
-        byte[] data = new byte[]{16, 4, (byte) n};
-        return data;
+        return new byte[]{16, 4, (byte) n};
     }
 
     public static byte[] requestRealtimeForPrint(int n) {
-        byte[] data = new byte[]{16, 5, (byte) n};
-        return data;
+        return new byte[]{16, 5, (byte) n};
     }
 
     public static byte[] openCashboxRealtime(int m, int t) {
-        byte[] data = new byte[]{16, 20, 1, (byte) m, (byte) t};
-        return data;
+        return new byte[]{16, 20, 1, (byte) m, (byte) t};
     }
 
     public static byte[] printByPagemodel() {
-        byte[] data = new byte[]{27, 12};
-        return data;
+        return new byte[]{27, 12};
     }
 
     public static byte[] setCharRightSpace(int n) {
-        byte[] data = new byte[]{27, 32, (byte) n};
-        return data;
+        return new byte[]{27, 32, (byte) n};
     }
 
     public static byte[] selectPrintModel(int n) {
-        byte[] data = new byte[]{27, 33, (byte) n};
-        return data;
+        return new byte[]{27, 33, (byte) n};
     }
 
     public static byte[] setAbsolutePrintPosition(int m, int n) {
-        byte[] data = new byte[]{27, 36, (byte) m, (byte) n};
-        return data;
+        return new byte[]{27, 36, (byte) m, (byte) n};
     }
 
     public static byte[] selectOrCancleCustomChar(int n) {
-        byte[] data = new byte[]{27, 37, (byte) n};
-        return data;
+        return new byte[]{27, 37, (byte) n};
     }
 
     public static byte[] defineuserDefinedCharacters(int c1, int c2, byte[] b) {
@@ -93,33 +80,27 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] selectOrCancelUnderlineModel(int n) {
-        byte[] data = new byte[]{27, 45, (byte) n};
-        return data;
+        return new byte[]{27, 45, (byte) n};
     }
 
     public static byte[] setDefultLineSpacing() {
-        byte[] data = new byte[]{27, 50};
-        return data;
+        return new byte[]{27, 50};
     }
 
     public static byte[] setLineSpaceing(int n) {
-        byte[] data = new byte[]{27, 51, (byte) n};
-        return data;
+        return new byte[]{27, 51, (byte) n};
     }
 
     public static byte[] selectPrinter(int n) {
-        byte[] data = new byte[]{27, 61, (byte) n};
-        return data;
+        return new byte[]{27, 61, (byte) n};
     }
 
     public static byte[] cancelUserDefinedCharacters(int n) {
-        byte[] data = new byte[]{27, 63, (byte) n};
-        return data;
+        return new byte[]{27, 63, (byte) n};
     }
 
     public static byte[] initializePrinter() {
-        byte[] data = new byte[]{27, 64};
-        return data;
+        return new byte[]{27, 64};
     }
 
     public static byte[] setHorizontalmovementPosition(byte[] b) {
@@ -131,103 +112,83 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] selectOrCancelBoldModel(int n) {
-        byte[] data = new byte[]{27, 69, (byte) n};
-        return data;
+        return new byte[]{27, 69, (byte) n};
     }
 
     public static byte[] selectOrCancelDoubelPrintModel(int n) {
-        byte[] data = new byte[]{27, 71, (byte) n};
-        return data;
+        return new byte[]{27, 71, (byte) n};
     }
 
     public static byte[] printAndFeed(int n) {
-        byte[] data = new byte[]{27, 74, (byte) n};
-        return data;
+        return new byte[]{27, 74, (byte) n};
     }
 
     public static byte[] selectPageModel() {
-        byte[] data = new byte[]{27, 76};
-        return data;
+        return new byte[]{27, 76};
     }
 
     public static byte[] selectFont(int n) {
-        byte[] data = new byte[]{27, 77, (byte) n};
-        return data;
+        return new byte[]{27, 77, (byte) n};
     }
 
     public static byte[] selectInternationalCharacterSets(int n) {
-        byte[] data = new byte[]{27, 82, (byte) n};
-        return data;
+        return new byte[]{27, 82, (byte) n};
     }
 
     public static byte[] selectStandardModel() {
-        byte[] data = new byte[]{27, 83};
-        return data;
+        return new byte[]{27, 83};
     }
 
     public static byte[] selectPrintDirectionUnderPageModel(int n) {
-        byte[] data = new byte[]{27, 84, (byte) n};
-        return data;
+        return new byte[]{27, 84, (byte) n};
     }
 
     public static byte[] selectOrCancelCW90(int n) {
-        byte[] data = new byte[]{27, 86, (byte) n};
-        return data;
+        return new byte[]{27, 86, (byte) n};
     }
 
     public static byte[] setPrintAreaUnderPageModel(int xL, int xH, int yL, int yH, int dxL, int dxH, int dyL, int dyH) {
-        byte[] data = new byte[]{27, 87, (byte) xL, (byte) xH, (byte) yL, (byte) yH, (byte) dxL, (byte) dxH, (byte) dyL, (byte) dyH};
-        return data;
+        return new byte[]{27, 87, (byte) xL, (byte) xH, (byte) yL, (byte) yH, (byte) dxL, (byte) dxH, (byte) dyL, (byte) dyH};
     }
 
     public static byte[] setRelativeHorizontalPrintPosition(int nL, int nH) {
-        byte[] data = new byte[]{27, 92, (byte) nL, (byte) nH};
-        return data;
+        return new byte[]{27, 92, (byte) nL, (byte) nH};
     }
 
     public static byte[] selectAlignment(int n) {
-        byte[] data = new byte[]{27, 97, (byte) n};
-        return data;
+        return new byte[]{27, 97, (byte) n};
     }
 
     public static byte[] selectPrintTransducerOutPutPageOutSignal(int n) {
-        byte[] data = new byte[]{27, 99, 51, (byte) n};
-        return data;
+        return new byte[]{27, 99, 51, (byte) n};
     }
 
     public static byte[] selectPrintTransducerStopPrint(int n) {
-        byte[] data = new byte[]{27, 99, 52, (byte) n};
-        return data;
+        return new byte[]{27, 99, 52, (byte) n};
     }
 
     public static byte[] allowOrForbidPressButton(int n) {
-        byte[] data = new byte[]{27, 99, 53, (byte) n};
-        return data;
+        return new byte[]{27, 99, 53, (byte) n};
     }
 
     public static byte[] printAndFeedForward(int n) {
-        byte[] data = new byte[]{27, 100, (byte) n};
-        return data;
+        return new byte[]{27, 100, (byte) n};
     }
 
     public static byte[] creatCashboxContorlPulse(int m, int t1, int t2) {
-        byte[] data = new byte[]{27, 112, (byte) m, (byte) t1, (byte) t2};
-        return data;
+        return new byte[]{27, 112, (byte) m, (byte) t1, (byte) t2};
     }
 
     public static byte[] selectCharacterCodePage(int n) {
-        byte[] data = new byte[]{27, 116, (byte) n};
-        return data;
+        return new byte[]{27, 116, (byte) n};
     }
 
     public static byte[] selectOrCancelConvertPrintModel(int n) {
-        byte[] data = new byte[]{27, 123, (byte) n};
-        return data;
+        return new byte[]{27, 123, (byte) n};
     }
 
     public static byte[] printBmpInFLASH(int n, int m) {
-        byte[] data = new byte[]{28, 112, (byte) n, (byte) m};
-        return data;
+        return new byte[]{28, 112, (byte) n, (byte) m};
     }
 
     /*public static byte[] definedFlashBmp(List<Bitmap> list, int n, BmpType bmpType) {
@@ -246,13 +207,11 @@ public class DataForSendToPrinterPos80 {
     }*/
 
     public static byte[] selectCharacterSize(int n) {
-        byte[] data = new byte[]{29, 33, (byte) n};
-        return data;
+        return new byte[]{29, 33, (byte) n};
     }
 
     public static byte[] setAbsolutePositionUnderPageModel(int nL, int nH) {
-        byte[] data = new byte[]{29, 36, (byte) nL, (byte) nH};
-        return data;
+        return new byte[]{29, 36, (byte) nL, (byte) nH};
     }
 
     /*public static byte[] definedDownLoadBmp(Bitmap bitmap, BmpType bmpType) {
@@ -263,82 +222,67 @@ public class DataForSendToPrinterPos80 {
     }*/
 
     public static byte[] executePrintDataSaveByTransformToHex() {
-        byte[] data = new byte[]{29, 40, 65, 2, 0, 0, 1};
-        return data;
+        return new byte[]{29, 40, 65, 2, 0, 0, 1};
     }
 
     public static byte[] printDownLoadBmp(int m) {
-        byte[] data = new byte[]{29, 47, (byte) m};
-        return data;
+        return new byte[]{29, 47, (byte) m};
     }
 
     public static byte[] startOrStopMacrodeFinition() {
-        byte[] data = new byte[]{29, 58};
-        return data;
+        return new byte[]{29, 58};
     }
 
     public static byte[] selectOrCancelInvertPrintModel(int n) {
-        byte[] data = new byte[]{29, 66, (byte) n};
-        return data;
+        return new byte[]{29, 66, (byte) n};
     }
 
     public static byte[] selectHRICharacterPrintPosition(int n) {
-        byte[] data = new byte[]{29, 72, (byte) n};
-        return data;
+        return new byte[]{29, 72, (byte) n};
     }
 
     public static byte[] setLeftSpace(int nL, int nH) {
-        byte[] data = new byte[]{29, 76, (byte) nL, (byte) nH};
-        return data;
+        return new byte[]{29, 76, (byte) nL, (byte) nH};
     }
 
     public static byte[] setHorizontalAndVerticalMoveUnit(int x, int y) {
-        byte[] data = new byte[]{29, 80, (byte) x, (byte) y};
-        return data;
+        return new byte[]{29, 80, (byte) x, (byte) y};
     }
 
     public static byte[] selectCutPagerModerAndCutPager(int m) {
-        byte[] data = new byte[]{29, 86, (byte) m};
-        return data;
+        return new byte[]{29, 86, (byte) m};
     }
 
     public static byte[] selectCutPagerModerAndCutPager(int m, int n) {
         if (m != 66) {
             return new byte[0];
         } else {
-            byte[] data = new byte[]{29, 86, (byte) m, (byte) n};
-            return data;
+            return new byte[]{29, 86, (byte) m, (byte) n};
         }
     }
 
     public static byte[] setPrintAreaWidth(int nL, int nH) {
-        byte[] data = new byte[]{29, 87, (byte) nL, (byte) nH};
-        return data;
+        return new byte[]{29, 87, (byte) nL, (byte) nH};
     }
 
     public static byte[] setVerticalRelativePositionUnderPageModel(int nL, int nH) {
-        byte[] data = new byte[]{29, 92, (byte) nL, (byte) nH};
-        return data;
+        return new byte[]{29, 92, (byte) nL, (byte) nH};
     }
 
     public static byte[] executeMacrodeCommand(int r, int t, int m) {
-        byte[] data = new byte[]{29, 94, (byte) r, (byte) t, (byte) m};
-        return data;
+        return new byte[]{29, 94, (byte) r, (byte) t, (byte) m};
     }
 
     public static byte[] openOrCloseAutoReturnPrintState(int n) {
-        byte[] data = new byte[]{29, 97, (byte) n};
-        return data;
+        return new byte[]{29, 97, (byte) n};
     }
 
     public static byte[] selectHRIFont(int n) {
-        byte[] data = new byte[]{29, 102, (byte) n};
-        return data;
+        return new byte[]{29, 102, (byte) n};
     }
 
     public static byte[] setBarcodeHeight(int n) {
-        byte[] data = new byte[]{29, 104, (byte) n};
-        return data;
+        return new byte[]{29, 104, (byte) n};
     }
 
     public static byte[] printBarcode(int m, String content) {
@@ -370,8 +314,7 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] returnState(int n) {
-        byte[] data = new byte[]{29, 114, (byte) n};
-        return data;
+        return new byte[]{29, 114, (byte) n};
     }
 
    /* public static byte[] printRasterBmp(int m, Bitmap bitmap, BmpType bmpType, AlignType alignType, int pagewidth) {
@@ -380,28 +323,23 @@ public class DataForSendToPrinterPos80 {
     }*/
 
     public static byte[] setBarcodeWidth(int n) {
-        byte[] data = new byte[]{29, 119, (byte) n};
-        return data;
+        return new byte[]{29, 119, (byte) n};
     }
 
     public static byte[] setChineseCharacterModel(int n) {
-        byte[] data = new byte[]{28, 33, (byte) n};
-        return data;
+        return new byte[]{28, 33, (byte) n};
     }
 
     public static byte[] selectChineseCharModel() {
-        byte[] data = new byte[]{28, 38};
-        return data;
+        return new byte[]{28, 38};
     }
 
     public static byte[] selectOrCancelChineseCharUnderLineModel(int n) {
-        byte[] data = new byte[]{28, 45, (byte) n};
-        return data;
+        return new byte[]{28, 45, (byte) n};
     }
 
     public static byte[] CancelChineseCharModel() {
-        byte[] data = new byte[]{28, 46};
-        return data;
+        return new byte[]{28, 46};
     }
 
     public static byte[] definedUserDefinedChineseChar(int c2, byte[] b) {
@@ -411,53 +349,43 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] setChineseCharLeftAndRightSpace(int n1, int n2) {
-        byte[] data = new byte[]{28, 83, (byte) n1, (byte) n2};
-        return data;
+        return new byte[]{28, 83, (byte) n1, (byte) n2};
     }
 
     public static byte[] selectOrCancelChineseCharDoubleWH(int n) {
-        byte[] data = new byte[]{28, 87, (byte) n};
-        return data;
+        return new byte[]{28, 87, (byte) n};
     }
 
     public static byte[] printerOrderBuzzingHint(int n, int t) {
-        byte[] data = new byte[]{27, 66, (byte) n, (byte) t};
-        return data;
+        return new byte[]{27, 66, (byte) n, (byte) t};
     }
 
     public static byte[] printerOrderBuzzingAndWarningLight(int m, int t, int n) {
-        byte[] data = new byte[]{27, 67, (byte) m, (byte) t, (byte) n};
-        return data;
+        return new byte[]{27, 67, (byte) m, (byte) t, (byte) n};
     }
 
     public static byte[] SetsTheNumberOfColumnsOfTheDataAreaForPDF417(int n) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 65, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 65, (byte) n};
     }
 
     public static byte[] SetsTheNumberOfRowsOfTheDataAreaForPDF417(int n) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 66, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 66, (byte) n};
     }
 
     public static byte[] SetsTheModuleWidthOfPDF417(int n) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 67, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 67, (byte) n};
     }
 
     public static byte[] SetsTheModuleHeightForPDF417(int n) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 68, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 68, (byte) n};
     }
 
     public static byte[] SetsTheErrorCorrectionLevelForPDF417(int m, int n) {
-        byte[] data = new byte[]{29, 40, 107, 4, 0, 48, 69, (byte) m, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 4, 0, 48, 69, (byte) m, (byte) n};
     }
 
     public static byte[] SpecifiesOrCancelsVariousPDF417SymbolOptions(int m) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 70, (byte) m};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 70, (byte) m};
     }
 
     public static byte[] StoresSymbolDataInThePDF417SymbolStorageArea(int pL, int pH, byte[] b) {
@@ -467,23 +395,19 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] PrintsThePDF417SymbolDataInTheSymbolStorageArea() {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 81, 48};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 81, 48};
     }
 
     public static byte[] TransmitsTheSizeOfTheSymbolDataInTheSymbolStorageAreaPDF417() {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 48, 82, 48};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 48, 82, 48};
     }
 
     public static byte[] SetsTheSizeOfTheQRCodeSymbolModule(int n) {
-        byte[] data = new byte[]{29, 40, 107, 48, 103, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 48, 103, (byte) n};
     }
 
     public static byte[] SetsTheErrorCorrectionLevelForQRCodeSymbol(int n) {
-        byte[] data = new byte[]{29, 40, 107, 48, 105, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 48, 105, (byte) n};
     }
 
     public static byte[] StoresSymbolDataInTheQRCodeSymbolStorageArea(String code) {
@@ -505,8 +429,7 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] PrintsTheQRCodeSymbolDataInTheSymbolStorageArea() {
-        byte[] data = new byte[]{29, 40, 107, 48, -127};
-        return data;
+        return new byte[]{29, 40, 107, 48, -127};
     }
 
     public static byte[] printQRcode(int n, int errLevel, String code) {
@@ -530,13 +453,11 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] TransmitsTheSizeOfTheSymbolDataInTheSymbolStorageAreaQRCode() {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 49, 82, 48};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 49, 82, 48};
     }
 
     public static byte[] SpecifiesTheModeForMaxiCodeSymbol(int n) {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 50, 65, (byte) n};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 50, 65, (byte) n};
     }
 
     public static byte[] StoresSymbolDataInItheMaxiCodeSymbolStorageArea(int pL, int pH, byte[] b) {
@@ -546,13 +467,11 @@ public class DataForSendToPrinterPos80 {
     }
 
     public static byte[] PrintsTheMaxiCodeSymbolDataInTheSymbolStorageArea() {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 50, 81, 48};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 50, 81, 48};
     }
 
     public static byte[] TransmitsTheSizeOfTheEncodedSymbolDataInTheSymbolStorageAreaMaxiCode() {
-        byte[] data = new byte[]{29, 40, 107, 3, 0, 50, 82, 48};
-        return data;
+        return new byte[]{29, 40, 107, 3, 0, 50, 82, 48};
     }
 
     private static byte[] byteMerger(byte[] byte_1, byte[] byte_2) {
@@ -567,7 +486,7 @@ public class DataForSendToPrinterPos80 {
 
         try {
             byte[] b = str.getBytes("utf-8");
-            if (charsetName == null | charsetName == "") {
+            if (charsetName == null || charsetName.equals("")) {
                 charsetName = "gbk";
             }
 
