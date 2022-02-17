@@ -65,5 +65,30 @@ class BluetoothConnectService(private val connectListener: BluetoothConnectListe
         return isConnected
     }
 
+    fun writeData(generateData: GenerateData, callback: WriteDataCallback) {
+        val dataList = generateData.generate()
+        ioScope.launch {
+            var error: Throwable? = null
+            dataList.forEach {
+                bluetoothConnect.writeData(it, object : WriteDataCallback {
+                    override fun onSuccess() {
+
+                    }
+
+                    override fun onFailed(t: Throwable) {
+                        error = t
+                    }
+                })
+            }
+            ioScope.launch(Dispatchers.Main) {
+                if (error == null) {
+                    callback.onSuccess()
+                } else {
+                    callback.onFailed(error!!)
+                }
+            }
+        }
+    }
+
 
 }

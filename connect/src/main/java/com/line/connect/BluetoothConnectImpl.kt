@@ -64,4 +64,14 @@ class BluetoothConnectImpl : IBluetoothConnect {
     override fun setBluetoothConnectListener(l: BluetoothConnectListener) {
         this.connectListener = l
     }
+
+    override fun writeData(data: ByteArray, callback: WriteDataCallback) {
+        try {
+            outputStream?.write(data)
+            callback.onSuccess()
+        } catch (t: Throwable) {
+            disconnect()
+            callback.onFailed(t)
+        }
+    }
 }

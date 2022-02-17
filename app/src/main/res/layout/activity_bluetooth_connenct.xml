@@ -42,8 +42,17 @@
             android:layout_marginLeft="30dp"
             app:layout_constraintLeft_toRightOf="@+id/progressBar"
             app:layout_constraintTop_toTopOf="@+id/progressBar"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
-    />
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"/>
+
+
+    <Button
+            android:id="@+id/btnPrint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="打印"
+            app:layout_constraintTop_toBottomOf="@+id/btStartConnect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

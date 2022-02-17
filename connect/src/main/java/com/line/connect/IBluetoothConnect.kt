@@ -10,4 +10,6 @@ interface IBluetoothConnect {
     fun disconnect()
 
     fun setBluetoothConnectListener(l: BluetoothConnectListener)
+
+    fun writeData(data: ByteArray, callback: WriteDataCallback)
 }

@@ -1,3 +1,4 @@
+include ':printer'
 include ':connect'
 include ':scan'
 include ':app'
