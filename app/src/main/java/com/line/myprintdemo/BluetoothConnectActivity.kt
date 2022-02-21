@@ -15,12 +15,8 @@ import com.line.connect.BluetoothConnectListener
 import com.line.connect.BluetoothConnectService
 import com.line.connect.GenerateData
 import com.line.connect.WriteDataCallback
-import com.line.myprintdemo.bean.OrderBean
 import com.line.myprintdemo.bean.getOrderData
-import com.line.printer.Commands
-import com.line.printer.DataForSendToPrinter
-import com.line.printer.numberFormat
-import com.line.printer.strToBytes
+import com.line.printer.*
 
 /**
  * created by chenliu on  2022/2/17 3:00 下午.
@@ -40,6 +36,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
 
     private lateinit var tvName: TextView
     private lateinit var btStartConnect: Button
+    private lateinit var btn80Print: Button
     private lateinit var btnPrint: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var tvStatus: TextView
@@ -51,6 +48,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bluetooth_connenct)
         tvName = findViewById(R.id.tvName)
         btStartConnect = findViewById(R.id.btStartConnect)
+        btn80Print = findViewById(R.id.btn80Print)
         btnPrint = findViewById(R.id.btnPrint)
         progressBar = findViewById(R.id.progressBar)
         tvStatus = findViewById(R.id.tvStatus)
@@ -79,7 +77,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
             if (bluetoothConnectService.isConnected()) {
                 bluetoothConnectService.writeData(object : GenerateData {
                     override fun generate(): List<ByteArray> {
-                        return getCommands()
+                        return getAbsolutePrintPositionFormat()
                     }
                 }, object : WriteDataCallback {
                     override fun onSuccess() {
@@ -96,6 +94,247 @@ class BluetoothConnectActivity : AppCompatActivity() {
             }
         }
 
+        btn80Print.setOnClickListener {
+            if (bluetoothConnectService.isConnected()) {
+                bluetoothConnectService.writeData(object : GenerateData {
+                    override fun generate(): List<ByteArray> {
+                        return getFormat80mm()
+                    }
+                }, object : WriteDataCallback {
+                    override fun onSuccess() {
+                        tvStatus.text = "打印成功"
+                    }
+
+                    @SuppressLint("SetTextI18n")
+                    override fun onFailed(t: Throwable) {
+                        tvStatus.text = "打印失败：${t.message}"
+                    }
+                })
+            } else {
+                Toast.makeText(this, "请先连接蓝牙打印机", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+
+    private fun getFormat58mm(): List<ByteArray> {
+        val list: MutableList<ByteArray> = java.util.ArrayList()
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(1))
+        list.add(DataForSendToPrinterPos58.selectCharacterSize(17)) //字体放大一倍
+
+        list.add(DataForSendToPrinterPos58.selectOrCancelBoldModel(1))
+        list.add(strToBytes("闹元宵火锅店"))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        /*  list.add(DataForSendToPrinterPos58.initializePrinter())
+          list.add(DataForSendToPrinterPos58.selectAlignment(0))
+          list.add(strToBytes(Print58Util.getTowLineString("付款时间", "2022年1月26日 18:23:35")))
+          list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+          list.add(DataForSendToPrinterPos58.initializePrinter())
+          list.add(DataForSendToPrinterPos58.selectAlignment(0))
+          list.add(strToBytes(Print58Util.getTowLineString("订单编号", "13887065438432")))
+          list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+          list.add(DataForSendToPrinterPos58.initializePrinter())
+          list.add(DataForSendToPrinterPos58.selectAlignment(0))
+          list.add(strToBytes(Print58Util.getTowLineString("顾客姓名", "王可可")))
+          list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+          list.add(DataForSendToPrinterPos58.initializePrinter())
+          list.add(DataForSendToPrinterPos58.selectAlignment(0))
+          list.add(strToBytes(Print58Util.getTowLineString("会员等级", "至尊会员-全场消费5.6折优惠")))
+          list.add(DataForSendToPrinterPos58.printAndFeedLine())*/
+
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        val dash = StringBuilder()
+        for (i in 0..31) {
+            dash.append("-")
+        }
+        list.add(strToBytes(dash.toString()))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getThreeLineString("商品名称", "购买数量", "商品价格")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getThreeLineString2("烤鱼烤羊排", "1", "20元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getThreeLineString2("鱼香茄子", "12", "200元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getThreeLineString2("红烧肉烧五花肉烧梅干菜", "111", "2000元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getThreeLineString2("炸串", "1000", "20000元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+
+/*
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(dash.toString()))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getTowLineString("商品总计", "80元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getTowLineString("至尊会员 - 全场消费5.6折优惠", "节省44.8元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.selectAlignment(0))
+        list.add(strToBytes(Print58Util.getTowLineString("实际付款金额", "35.2元")))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())*/
+
+
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        return list
+    }
+
+
+    private fun getFormat80mm(): List<ByteArray> {
+        val list: MutableList<ByteArray> = java.util.ArrayList()
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(1))
+        list.add(DataForSendToPrinterPos80.selectCharacterSize(17)) //字体放大一倍
+
+        list.add(DataForSendToPrinterPos80.selectOrCancelBoldModel(1))
+        list.add(strToBytes("闹元宵火锅店"))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("付款时间", "2022年1月26日 18:23:35")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("订单编号", "13887065438432")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("顾客姓名", "王可可")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("会员等级", "至尊会员-全场消费5.6折优惠")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        val dash = StringBuilder()
+        for (i in 0..47) {
+            dash.append("-")
+        }
+        list.add(strToBytes(dash.toString()))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getThreeLineString("商品名称", "购买数量", "商品价格")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getThreeLineString2("烤鱼烤羊排", "1", "20元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getThreeLineString2("鱼香茄子", "12", "200元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getThreeLineString2("红烧肉烧五花肉烧梅干菜", "111", "2000元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getThreeLineString2("炸串", "1000", "20000元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(dash.toString()))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("商品总计", "80元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("至尊会员 - 全场消费5.6折优惠", "节省44.8元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.initializePrinter())
+        list.add(DataForSendToPrinterPos80.selectAlignment(0))
+        list.add(strToBytes(Print80Util.getTowLineString("实际付款金额", "35.2元")))
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+        list.add(DataForSendToPrinterPos80.printAndFeedLine())
+
+        return list
+    }
+
+
+    private fun getAbsolutePrintPositionFormat(): List<ByteArray> {
+        val list: MutableList<ByteArray> = java.util.ArrayList()
+        val dash = StringBuilder()
+        for (i in 0..31) {
+            dash.append("-")
+        }
+        list.add(strToBytes(dash.toString()))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+
+        list.add(DataForSendToPrinterPos58.initializePrinter())
+        list.add(DataForSendToPrinterPos58.setAbsolutePrintPosition(0, 0))
+        list.add(strToBytes("-"))
+        list.add(DataForSendToPrinterPos58.setAbsolutePrintPosition(255, 255))
+        list.add(strToBytes("00"))
+        list.add(DataForSendToPrinterPos58.printAndFeedLine())
+        return list
     }
 
     private fun getCommands(): List<ByteArray> {

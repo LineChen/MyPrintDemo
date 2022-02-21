@@ -6,28 +6,18 @@ import java.text.DecimalFormat
 
 fun charSetName(): Charset = Charset.forName("gbk")
 
-fun strToBytes(str: String): ByteArray? {
-
+fun strToBytes(str: String): ByteArray {
     val data: ByteArray
-    try {
-        val b = str.toByteArray(charset = Charsets.UTF_8)
-        data = String(b).toByteArray(Charset.forName("gbk"))
-    } catch (e: Exception) {
-        return null
-    }
+    val b = str.toByteArray(charset = Charsets.UTF_8)
+    data = String(b).toByteArray(Charset.forName("gbk"))
     return data
 }
 
 
-fun strToBytes(str: String, charset: String): ByteArray? {
+fun strToBytes(str: String, charset: String): ByteArray {
     val data: ByteArray?
-    try {
-        val b = str.toByteArray(charset = Charsets.UTF_8)
-        data = String(b).toByteArray(Charset.forName("gbk"))
-    } catch (e: Exception) {
-        return null
-    }
-
+    val b = str.toByteArray(charset = Charsets.UTF_8)
+    data = String(b).toByteArray(Charset.forName("gbk"))
     return data
 }
 
