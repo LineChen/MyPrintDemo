@@ -40,5 +40,6 @@ interface PrinterCommand {
 
     fun printDashLine(): ByteArray
 
+    fun cutPaper(): ByteArray
 
 }

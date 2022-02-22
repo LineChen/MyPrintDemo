@@ -219,8 +219,9 @@ class BluetoothConnectActivity : AppCompatActivity() {
         list.add(realPricePair.second)
         list.add(printerCommand.printAndFeed(lineSpace))
 
-
         list.add(printerCommand.printAndFeedLine(3))
+
+        list.add(printerCommand.cutPaper())
 
         return list
     }

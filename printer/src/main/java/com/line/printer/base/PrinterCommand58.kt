@@ -1,6 +1,7 @@
 package com.line.printer.base
 
 import com.line.printer.DataForSendToPrinterPos58
+import com.line.printer.DataForSendToPrinterPos80
 import com.line.printer.strToBytes
 
 /**
@@ -65,5 +66,9 @@ class PrinterCommand58 : PrinterCommand {
 
     override fun printDashLine(): ByteArray {
         return strToBytes(printUtil.getDashLine())
+    }
+
+    override fun cutPaper(): ByteArray {
+        return DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(1)
     }
 }

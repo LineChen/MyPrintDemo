@@ -66,4 +66,8 @@ class PrinterCommand80 : PrinterCommand {
     override fun printDashLine(): ByteArray {
         return strToBytes(printUtil.getDashLine())
     }
+
+    override fun cutPaper(): ByteArray {
+        return DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(1)
+    }
 }
