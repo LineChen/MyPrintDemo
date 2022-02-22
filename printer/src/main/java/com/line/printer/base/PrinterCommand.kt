@@ -17,9 +17,20 @@ interface PrinterCommand {
 
     fun printAndFeedLine(n: Int): ByteArray
 
-    fun setCharacterSize(size:Int): ByteArray
+    fun setCharacterSize(size: Int): ByteArray
 
     fun setTextBold(bold: Boolean): ByteArray
+
+    /**
+     * 向前走纸
+     * 0 <= n <= 255
+     */
+    fun printAndFeed(n: Int): ByteArray
+
+    /**
+     * 获取2段文字，使用场景如：左边文字不加粗，右边文字加粗
+     */
+    fun getTowLineStringPair(leftText: String, rightText: String): Pair<ByteArray, ByteArray>
 
     fun getTowLineString(leftText: String, rightText: String): ByteArray
 

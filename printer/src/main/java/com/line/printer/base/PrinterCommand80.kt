@@ -42,6 +42,15 @@ class PrinterCommand80 : PrinterCommand {
         return DataForSendToPrinterPos80.selectOrCancelBoldModel(if (bold) 1 else 0)
     }
 
+    override fun printAndFeed(n: Int): ByteArray {
+        return DataForSendToPrinterPos80.printAndFeed(n)
+    }
+
+    override fun getTowLineStringPair(leftText: String, rightText: String): Pair<ByteArray, ByteArray> {
+        val towLineStringPair = printUtil.getTowLineStringPair(leftText, rightText)
+        return Pair(strToBytes(towLineStringPair.first), strToBytes(towLineStringPair.second))
+    }
+
     override fun getTowLineString(leftText: String, rightText: String): ByteArray {
         return strToBytes(printUtil.getTowLineString(leftText, rightText))
     }

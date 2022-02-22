@@ -17,6 +17,7 @@ import com.line.connect.GenerateData
 import com.line.connect.WriteDataCallback
 import com.line.myprintdemo.bean.getOrderData
 import com.line.printer.*
+import com.line.printer.base.PrinterCommand
 import com.line.printer.base.PrinterType
 import com.line.printer.base.getPrinterCommand
 
@@ -79,7 +80,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
             if (bluetoothConnectService.isConnected()) {
                 bluetoothConnectService.writeData(object : GenerateData {
                     override fun generate(): List<ByteArray> {
-                        return getFormat58mm()
+                        return getFormatCommand(getPrinterCommand(PrinterType.MM_58))
                     }
                 }, object : WriteDataCallback {
                     override fun onSuccess() {
@@ -100,7 +101,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
             if (bluetoothConnectService.isConnected()) {
                 bluetoothConnectService.writeData(object : GenerateData {
                     override fun generate(): List<ByteArray> {
-                        return getFormat80mm()
+                        return getFormatCommand(getPrinterCommand(PrinterType.MM_80))
                     }
                 }, object : WriteDataCallback {
                     override fun onSuccess() {
@@ -119,9 +120,8 @@ class BluetoothConnectActivity : AppCompatActivity() {
 
     }
 
-
-    private fun getFormat58mm(): List<ByteArray> {
-        val printerCommand = getPrinterCommand(PrinterType.MM_58)
+    private fun getFormatCommand(printerCommand: PrinterCommand): List<ByteArray> {
+        val lineSpace = 80
         val list: MutableList<ByteArray> = java.util.ArrayList()
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignCenter())
@@ -135,173 +135,89 @@ class BluetoothConnectActivity : AppCompatActivity() {
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getTowLineString("付款时间", "2022年1月26日 18:23:35"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getTowLineString("订单编号", "13887065438432"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
+
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getTowLineString("顾客姓名", "王可可"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getTowLineString("会员等级", "至尊会员-全场消费5.6折优惠"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.printDashLine())
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getThreeLineStringExactCenter("商品名称", "购买数量", "商品价格"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getThreeLineStringLastIndex("烤鱼烤羊排", "1", "20元"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getThreeLineStringLastIndex("鱼香茄子", "12", "200元"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getThreeLineStringLastIndex("红烧肉烧五花肉烧梅干菜", "111", "2000元"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.getThreeLineStringLastIndex("炸串", "1000", "20000元"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
         list.add(printerCommand.printDashLine())
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("商品总计", "80元"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("至尊会员 - 全场消费5.6折优惠", "节省44.8元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("实际付款金额", "35.2元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.printAndFeedLine(3))
-
-        return list
-    }
-
-
-    private fun getFormat80mm(): List<ByteArray> {
-        val printerCommand = getPrinterCommand(PrinterType.MM_80)
-        val list: MutableList<ByteArray> = java.util.ArrayList()
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignCenter())
-        list.add(printerCommand.setCharacterSize(17)) //字体放大一倍
-
+        val goodsPricePair = printerCommand.getTowLineStringPair("商品总计", "80元")
+        list.add(goodsPricePair.first)
         list.add(printerCommand.setTextBold(true))
-        list.add(strToBytes("闹元宵火锅店"))
-        list.add(printerCommand.printAndFeedLine())
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("付款时间", "2022年1月26日 18:23:35"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("订单编号", "13887065438432"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("顾客姓名", "王可可"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("会员等级", "至尊会员-全场消费5.6折优惠"))
-        list.add(printerCommand.printAndFeedLine())
+        list.add(goodsPricePair.second)
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.printDashLine())
-        list.add(printerCommand.printAndFeedLine())
+        val memberDiscountPair = printerCommand.getTowLineStringPair("至尊会员 - 全场消费5.6折优惠", "节省44.8元")
+        list.add(memberDiscountPair.first)
+        list.add(printerCommand.setTextBold(true))
+        list.add(memberDiscountPair.second)
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringExactCenter("商品名称", "购买数量", "商品价格"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringLastIndex("烤鱼烤羊排", "1", "20元"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringLastIndex("鱼香茄子", "12", "200元"))
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringLastIndex("红烧肉烧五花肉烧梅干菜", "111", "2000元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringLastIndex("炸串", "1000", "20000元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.printDashLine())
-        list.add(printerCommand.printAndFeedLine())
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("商品总计", "80元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("至尊会员 - 全场消费5.6折优惠", "节省44.8元"))
-        list.add(printerCommand.printAndFeedLine())
-
-
-        list.add(printerCommand.initialize())
-        list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getTowLineString("实际付款金额", "35.2元"))
-        list.add(printerCommand.printAndFeedLine())
+        val realPricePair = printerCommand.getTowLineStringPair("实际付款金额", "35.2元")
+        list.add(realPricePair.first)
+        list.add(printerCommand.setTextBold(true))
+        list.add(realPricePair.second)
+        list.add(printerCommand.printAndFeed(lineSpace))
 
 
         list.add(printerCommand.printAndFeedLine(3))

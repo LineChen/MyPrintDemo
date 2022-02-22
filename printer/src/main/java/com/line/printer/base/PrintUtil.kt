@@ -42,6 +42,21 @@ class PrintUtil(private val config: PrinterConfig) {
         return sb.toString()
     }
 
+    fun getTowLineStringPair(leftText: String, rightText: String): Pair<String, String> {
+        val sb = StringBuilder()
+        val leftTextLength = getBytesLength(leftText)
+        val rightTextLength = getBytesLength(rightText)
+        sb.append(leftText)
+
+        // 计算两侧文字中间的空格
+        val marginBetweenMiddleAndRight = config.LINE_BYTE_SIZE - leftTextLength - rightTextLength
+        for (i in 0 until marginBetweenMiddleAndRight) {
+            sb.append(SPACE)
+        }
+        return Pair(sb.toString(), rightText)
+    }
+
+
     /**
      * 中间一个text放在正中间
      *
