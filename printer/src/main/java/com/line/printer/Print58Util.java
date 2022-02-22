@@ -1,6 +1,8 @@
 package com.line.printer;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 
 /**
@@ -64,7 +66,7 @@ public class Print58Util {
      * @param rightText
      * @return
      */
-    public static String getThreeLineString(String leftText, String middleText, String rightText) {
+    public static String getThreeLineStringExactCenter(String leftText, String middleText, String rightText) {
         StringBuilder sb = new StringBuilder();
         // 左边最多显示 LEFT_TEXT_MAX_LENGTH 个汉字 + 两个点
         if (leftText.length() > LEFT_TEXT_MAX_LENGTH) {
@@ -97,12 +99,13 @@ public class Print58Util {
 
     /**
      * 保证中间一个打印位置的最后一位在17位
+     *
      * @param leftText
      * @param middleText
      * @param rightText
      * @return
      */
-    public static String getThreeLineString2(String leftText, String middleText, String rightText) {
+    public static String getThreeLineStringLastIndex(String leftText, String middleText, String rightText) {
         StringBuilder sb = new StringBuilder();
         // 左边最多显示 LEFT_TEXT_MAX_LENGTH 个汉字 + 两个点
         if (leftText.length() > LEFT_TEXT_MAX_LENGTH) {
@@ -133,4 +136,12 @@ public class Print58Util {
         return sb.toString();
     }
 
+    @NotNull
+    public static String getDashLine() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < LINE_BYTE_SIZE; i++) {
+            sb.append("-");
+        }
+        return sb.toString();
+    }
 }
