@@ -415,24 +415,24 @@ class BluetoothConnectActivity : AppCompatActivity() {
             progressBar.visibility = View.GONE
         }
 
-        override fun onConnectSuccess() {
+        override fun onConnectSuccess(address: String) {
             tvStatus.text = "连接成功"
             progressBar.visibility = View.GONE
             btStartConnect.text = "断开连接"
         }
 
-        override fun onConnectFailed(t: Throwable) {
+        override fun onConnectFailed(address: String, t: Throwable) {
             tvStatus.text = "连接失败"
             progressBar.visibility = View.GONE
         }
 
-        override fun onDisconnectSuccess() {
+        override fun onDisconnectSuccess(address: String?) {
             tvStatus.text = "断开成功"
             progressBar.visibility = View.GONE
             btStartConnect.text = "连接"
         }
 
-        override fun onDisconnectFailed(t: Throwable) {
+        override fun onDisconnectFailed(address: String?, t: Throwable) {
             tvStatus.text = "断开失败"
             progressBar.visibility = View.GONE
         }

@@ -21,29 +21,29 @@ class BluetoothConnectService(private val connectListener: BluetoothConnectListe
                 }
             }
 
-            override fun onConnectSuccess() {
+            override fun onConnectSuccess(address: String) {
                 ioScope.launch(Dispatchers.Main) {
                     isConnected = true
-                    connectListener.onConnectSuccess()
+                    connectListener.onConnectSuccess(address)
                 }
             }
 
-            override fun onConnectFailed(t: Throwable) {
+            override fun onConnectFailed(address: String, t: Throwable) {
                 ioScope.launch(Dispatchers.Main) {
-                    connectListener.onConnectFailed(t)
+                    connectListener.onConnectFailed(address, t)
                 }
             }
 
-            override fun onDisconnectSuccess() {
+            override fun onDisconnectSuccess(address: String?) {
                 ioScope.launch(Dispatchers.Main) {
                     isConnected = false
-                    connectListener.onDisconnectSuccess()
+                    connectListener.onDisconnectSuccess(address)
                 }
             }
 
-            override fun onDisconnectFailed(t: Throwable) {
+            override fun onDisconnectFailed(address: String?, t: Throwable) {
                 ioScope.launch(Dispatchers.Main) {
-                    connectListener.onDisconnectFailed(t)
+                    connectListener.onDisconnectFailed(address, t)
                 }
             }
         })

@@ -10,12 +10,12 @@ interface BluetoothConnectListener {
      */
     fun onNotValidMacAddress(address: String)
 
-    fun onConnectSuccess()
+    fun onConnectSuccess(address: String)
 
-    fun onConnectFailed(t: Throwable)
+    fun onConnectFailed(address: String, t: Throwable)
 
-    fun onDisconnectSuccess()
+    fun onDisconnectSuccess(address: String?)
 
-    fun onDisconnectFailed(t: Throwable)
+    fun onDisconnectFailed(address: String?, t: Throwable)
 
 }

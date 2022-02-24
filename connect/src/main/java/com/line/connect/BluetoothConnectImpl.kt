@@ -29,6 +29,8 @@ class BluetoothConnectImpl : IBluetoothConnect {
 
     private var connectListener: BluetoothConnectListener? = null
 
+    private var address: String? = null
+
     /**
      * @see android.bluetooth.BluetoothDevice.createInsecureRfcommSocketToServiceRecord
      *       创建一个 RFCOMM BluetoothSocket 套接字，准备使用 uuid 的 SDP 查找启动到此远程设备的不安全传出连接。
@@ -45,6 +47,7 @@ class BluetoothConnectImpl : IBluetoothConnect {
      *      仅当经过身份验证的套接字链接是可能的时才使用此套接字。身份验证是指对链接密钥进行身份验证，以防止中间人类型的攻击。例如，对于蓝牙 2.1 设备，如果任何设备没有输入和输出功能或仅具有显示数字键的功能，则无法进行安全套接字连接。在这种情况下，请使用 createInsecureRfcommSocketToServiceRecord。有关更多详细信息，请参阅蓝牙核心规范版本 2.1 + EDR 的安全模型第 5.2 节（第 3 卷）。
      */
     override fun connect(address: String) {
+        this.address = address
         reset()
         val validBluetoothAddress = BluetoothAdapter.checkBluetoothAddress(address)
         if (validBluetoothAddress) {
@@ -56,16 +59,16 @@ class BluetoothConnectImpl : IBluetoothConnect {
                 bluetoothSocket?.connect()
                 outputStream = bluetoothSocket!!.outputStream
                 inputStream = bluetoothSocket!!.inputStream
-                connectListener?.onConnectSuccess()
+                connectListener?.onConnectSuccess(address)
             } catch (t: Throwable) {
                 try {
                     bluetoothSocket = remoteDevice.createRfcommSocketToServiceRecord(SPP_UUID)
                     bluetoothSocket?.connect()
                     outputStream = bluetoothSocket!!.outputStream
                     inputStream = bluetoothSocket!!.inputStream
-                    connectListener?.onConnectSuccess()
+                    connectListener?.onConnectSuccess(address)
                 } catch (t: Throwable) {
-                    connectListener?.onConnectFailed(t)
+                    connectListener?.onConnectFailed(address, t)
                 }
             }
         } else {
@@ -76,9 +79,9 @@ class BluetoothConnectImpl : IBluetoothConnect {
     override fun disconnect() {
         try {
             reset()
-            connectListener?.onDisconnectSuccess()
+            connectListener?.onDisconnectSuccess(address)
         } catch (t: Throwable) {
-            connectListener?.onDisconnectFailed(t)
+            connectListener?.onDisconnectFailed(address, t)
         }
     }
 
