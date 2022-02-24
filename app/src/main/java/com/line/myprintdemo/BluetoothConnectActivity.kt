@@ -101,7 +101,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
             if (bluetoothConnectService.isConnected()) {
                 bluetoothConnectService.writeData(object : GenerateData {
                     override fun generate(): List<ByteArray> {
-                        return getFormatCommand(getPrinterCommand(PrinterType.MM_80))
+                        return getTestCommand(getPrinterCommand(PrinterType.MM_80))
                     }
                 }, object : WriteDataCallback {
                     override fun onSuccess() {
@@ -118,6 +118,26 @@ class BluetoothConnectActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun getTestCommand(printerCommand: PrinterCommand): List<ByteArray> {
+        val list: MutableList<ByteArray> = java.util.ArrayList()
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignCenter())
+        list.add(printerCommand.setCharacterSize(17)) //字体放大一倍
+        list.add(printerCommand.setTextBold(true))
+        list.add(strToBytes("会员时代\n"))
+        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeedLine())
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignCenter())
+        list.add(strToBytes("您的打印机运行正常\n"))
+
+        list.add(printerCommand.printAndFeedLine())
+        list.add(printerCommand.printAndFeedLine(4))
+        list.add(printerCommand.cutPaper())
+        return list
     }
 
     private fun getFormatCommand(printerCommand: PrinterCommand): List<ByteArray> {
