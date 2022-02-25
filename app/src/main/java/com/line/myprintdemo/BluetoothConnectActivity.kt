@@ -80,7 +80,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
             if (bluetoothConnectService.isConnected()) {
                 bluetoothConnectService.writeData(object : GenerateData {
                     override fun generate(): List<ByteArray> {
-                        return getFormatCommand(getPrinterCommand(PrinterType.MM_58))
+                        return getTestCommand(getPrinterCommand(PrinterType.MM_58))
                     }
                 }, object : WriteDataCallback {
                     override fun onSuccess() {
@@ -121,6 +121,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
     }
 
     private fun getTestCommand(printerCommand: PrinterCommand): List<ByteArray> {
+        val lineSpace = 80
         val list: MutableList<ByteArray> = java.util.ArrayList()
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignCenter())
@@ -133,6 +134,94 @@ class BluetoothConnectActivity : AppCompatActivity() {
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignCenter())
         list.add(strToBytes("您的打印机运行正常\n"))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines1 = printerCommand.getTowLineStringLines("烤鱼烤羊排", "烤鱼烤羊排")
+        lines1.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines2 = (printerCommand.getTowLineStringLines("烤鱼烤羊排烤羊", "烤鱼烤羊排烤羊"))
+        lines2.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines3 = (printerCommand.getTowLineStringLines("烤鱼烤羊排烤鱼烤羊排", "烤鱼烤羊排"))
+        lines3.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val line4 = (printerCommand.getTowLineStringLines("烤鱼烤羊排烤鱼烤羊排", "烤鱼烤羊排烤鱼烤羊排"))
+        line4.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines5 = (printerCommand.getTowLineStringLines("烤鱼烤羊排", "烤鱼烤羊排烤鱼烤羊排"))
+        lines5.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines6 = (printerCommand.getTowLineStringLines("烤鱼烤羊排", "烤鱼烤羊排烤鱼烤羊排烤鱼烤羊排烤鱼烤羊排"))
+        lines6.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines7 = (printerCommand.getTowLineStringLines("01234567891234", "12345678901234567890"))
+        lines7.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.initialize())
+        list.add(printerCommand.setAlignLeft())
+        val lines8 = (printerCommand.getTowLineStringLines("0123456789123你", "0123456789123你好"))
+        lines8.forEach {
+            list.add(printerCommand.setTextBold(false))
+            list.add(it.first)
+            list.add(printerCommand.setTextBold(true))
+            list.add(it.second)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
 
         list.add(printerCommand.printAndFeedLine())
         list.add(printerCommand.printAndFeedLine(4))
@@ -197,7 +286,7 @@ class BluetoothConnectActivity : AppCompatActivity() {
 
         list.add(printerCommand.initialize())
         list.add(printerCommand.setAlignLeft())
-        list.add(printerCommand.getThreeLineStringLastIndex("红烧肉烧五花肉烧梅干菜", "111", "2000元"))
+        list.add(printerCommand.getThreeLineStringLastIndex("红烧肉烧五花\n肉烧梅干菜", "111", "2000元"))
         list.add(printerCommand.printAndFeed(lineSpace))
 
 

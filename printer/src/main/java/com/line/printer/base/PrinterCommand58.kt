@@ -52,6 +52,15 @@ class PrinterCommand58 : PrinterCommand {
         return Pair(strToBytes(towLineStringPair.first), strToBytes(towLineStringPair.second))
     }
 
+    override fun getTowLineStringLines(leftText: String, rightText: String): List<Pair<ByteArray, ByteArray>> {
+        val towLineStringLines = printUtil.getTowLineStringLines(leftText, rightText)
+        val lines = mutableListOf<Pair<ByteArray, ByteArray>>()
+        towLineStringLines.forEach {
+            lines.add(Pair(strToBytes(it.first), strToBytes(it.second)))
+        }
+        return lines
+    }
+
     override fun getTowLineString(leftText: String, rightText: String): ByteArray {
         return strToBytes(printUtil.getTowLineString(leftText, rightText))
     }

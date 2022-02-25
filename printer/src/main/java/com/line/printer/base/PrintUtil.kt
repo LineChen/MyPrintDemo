@@ -1,14 +1,20 @@
 package com.line.printer.base
 
 import java.nio.charset.Charset
+import kotlin.math.max
 
 /**
  * created by chenliu on  2022/2/22 11:05 上午.
  */
-data class PrinterConfig(val LINE_BYTE_SIZE: Int, val LEFT_LENGTH: Int, val LEFT_TEXT_MAX_LENGTH: Int)
+data class PrinterConfig(
+    val LINE_BYTE_SIZE: Int,
+    val LEFT_LENGTH: Int,
+    val LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN: Int,
+    val LEFT_TEXT_MAX_BYTE_OF_2_COLUMN: Int
+)
 
-val PRINTER_CONFIG_58 = PrinterConfig(32, 16, 5)
-val PRINTER_CONFIG_80 = PrinterConfig(48, 24, 8)
+val PRINTER_CONFIG_58 = PrinterConfig(32, 16, 5, 14)
+val PRINTER_CONFIG_80 = PrinterConfig(48, 24, 8, 20)
 
 class PrintUtil(private val config: PrinterConfig) {
 
@@ -56,6 +62,36 @@ class PrintUtil(private val config: PrinterConfig) {
         return Pair(sb.toString(), rightText)
     }
 
+    fun getTowLineStringLines(leftText: String, rightText: String): List<Pair<String, String>> {
+        val maxLen = config.LEFT_TEXT_MAX_BYTE_OF_2_COLUMN
+        val leftTextList = mutableListOf<String>()
+        val sb = java.lang.StringBuilder()
+        leftText.toCharArray().forEachIndexed { index, c ->
+            sb.append(c)
+            if (getBytesLength(sb.toString()) >= maxLen || index == leftText.length - 1) {
+                leftTextList.add(sb.toString())
+                sb.clear()
+            }
+        }
+        val rightTextList = mutableListOf<String>()
+        rightText.toCharArray().forEachIndexed { index, c ->
+            sb.append(c)
+            if (getBytesLength(sb.toString()) >= maxLen || index == rightText.length - 1) {
+                rightTextList.add(sb.toString())
+                sb.clear()
+            }
+        }
+        val lines = mutableListOf<Pair<String, String>>()
+        val maxLines = max(leftTextList.size, rightTextList.size)
+        for (i in 0 until maxLines) {
+            val leftLineText: String? = if (i >= leftTextList.size) null else leftTextList[i]
+            val rightLineText: String? = if (i >= rightTextList.size) null else rightTextList[i]
+            val lineStringPair = getTowLineStringPair(leftLineText ?: "", rightLineText ?: "")
+            lines.add(lineStringPair)
+        }
+        return lines
+    }
+
 
     /**
      * 中间一个text放在正中间
@@ -69,8 +105,8 @@ class PrintUtil(private val config: PrinterConfig) {
         var leftText = left
         val sb = StringBuilder()
         // 左边最多显示 LEFT_TEXT_MAX_LENGTH 个汉字 + 两个点
-        if (leftText.length > config.LEFT_TEXT_MAX_LENGTH) {
-            leftText = leftText.substring(0, config.LEFT_TEXT_MAX_LENGTH) + ".."
+        if (leftText.length > config.LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN) {
+            leftText = leftText.substring(0, config.LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN) + ".."
         }
         val leftTextLength = getBytesLength(leftText)
         val middleTextLength = getBytesLength(middleText)
@@ -107,8 +143,8 @@ class PrintUtil(private val config: PrinterConfig) {
         var leftText = left
         val sb = StringBuilder()
         // 左边最多显示 LEFT_TEXT_MAX_LENGTH 个汉字 + 两个点
-        if (leftText.length > config.LEFT_TEXT_MAX_LENGTH) {
-            leftText = leftText.substring(0, config.LEFT_TEXT_MAX_LENGTH) + ".."
+        if (leftText.length > config.LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN) {
+            leftText = leftText.substring(0, config.LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN) + ".."
         }
         val leftTextLength = getBytesLength(leftText)
         val middleTextLength = getBytesLength(middleText)
