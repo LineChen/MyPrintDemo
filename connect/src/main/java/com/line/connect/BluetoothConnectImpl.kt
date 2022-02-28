@@ -100,7 +100,7 @@ class BluetoothConnectImpl : IBluetoothConnect {
 
     override fun writeData(data: ByteArray, callback: WriteDataCallback) {
         try {
-            outputStream?.write(data)
+            outputStream!!.write(data)
             callback.onSuccess()
         } catch (t: Throwable) {
             disconnect()
