@@ -73,6 +73,19 @@ class PrinterCommand58 : PrinterCommand {
         return strToBytes(printUtil.getThreeLineStringLastIndex(leftText, middleText, rightText))
     }
 
+    override fun getThreeColumnStringLines(
+        leftText: String,
+        middleText: String,
+        rightText: String
+    ): List<ByteArray> {
+        val threeColumnStringLines = printUtil.getThreeColumnStringLines(leftText, middleText, rightText)
+        val list = mutableListOf<ByteArray>()
+        threeColumnStringLines.forEach {
+            list.add(strToBytes(it))
+        }
+        return list
+    }
+
     override fun printDashLine(): ByteArray {
         return strToBytes(printUtil.getDashLine())
     }

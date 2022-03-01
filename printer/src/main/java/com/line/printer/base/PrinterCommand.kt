@@ -53,6 +53,12 @@ interface PrinterCommand {
 
     fun getThreeLineStringLastIndex(leftText: String, middleText: String, rightText: String): ByteArray
 
+    fun getThreeColumnStringLines(
+        leftText: String,
+        middleText: String,
+        rightText: String
+    ): List<ByteArray>
+
     fun printDashLine(): ByteArray
 
     fun cutPaper(): ByteArray

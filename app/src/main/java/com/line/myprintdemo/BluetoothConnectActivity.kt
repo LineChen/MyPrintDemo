@@ -223,6 +223,25 @@ class BluetoothConnectActivity : AppCompatActivity() {
         }
         list.add(printerCommand.printAndFeed(lineSpace))
 
+        list.add(printerCommand.setTextBold(false))
+        list.add(printerCommand.setAlignLeft())
+        list.add(printerCommand.getThreeLineStringExactCenter("商品名称", "购买数量", "商品价格"))
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.setAlignLeft())
+        printerCommand.getThreeColumnStringLines(
+            "烤鱼烤羊排烤鱼烤羊排烤鱼烤羊排",
+            "121",
+            "9000元"
+        ).forEach {
+            list.add(it)
+        }
+        list.add(printerCommand.printAndFeed(lineSpace))
+
+        list.add(printerCommand.setAlignLeft())
+        list.add(printerCommand.getThreeLineStringLastIndex("鱼香茄子", "12", "200元"))
+        list.add(printerCommand.printAndFeed(lineSpace))
+
         list.add(printerCommand.printAndFeedLine())
         list.add(printerCommand.printAndFeedLine(4))
         list.add(printerCommand.cutPaper())

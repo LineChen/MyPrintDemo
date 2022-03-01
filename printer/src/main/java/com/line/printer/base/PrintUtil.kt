@@ -10,11 +10,12 @@ data class PrinterConfig(
     val LINE_BYTE_SIZE: Int,
     val LEFT_LENGTH: Int,
     val LEFT_TEXT_MAX_LENGTH_OF_3_COLUMN: Int,
-    val LEFT_TEXT_MAX_BYTE_OF_2_COLUMN: Int
+    val MAX_BYTE_OF_2_COLUMN: Int,  //2列显示是，一列最多显示几个字符
+    val MAX_BYTE_OF_3_COLUMN: Int   //3列显示是，一列最多显示几个字符
 )
 
-val PRINTER_CONFIG_58 = PrinterConfig(32, 16, 5, 14)
-val PRINTER_CONFIG_80 = PrinterConfig(48, 24, 8, 20)
+val PRINTER_CONFIG_58 = PrinterConfig(32, 16, 5, 14, 9)
+val PRINTER_CONFIG_80 = PrinterConfig(48, 24, 8, 20, 14)
 
 class PrintUtil(private val config: PrinterConfig) {
 
@@ -63,7 +64,7 @@ class PrintUtil(private val config: PrinterConfig) {
     }
 
     fun getTowLineStringLines(leftText: String, rightText: String): List<Pair<String, String>> {
-        val maxLen = config.LEFT_TEXT_MAX_BYTE_OF_2_COLUMN
+        val maxLen = config.MAX_BYTE_OF_2_COLUMN
         val leftTextList = mutableListOf<String>()
         val sb = java.lang.StringBuilder()
         leftText.toCharArray().forEachIndexed { index, c ->
@@ -73,6 +74,7 @@ class PrintUtil(private val config: PrinterConfig) {
                 sb.clear()
             }
         }
+        sb.clear()
         val rightTextList = mutableListOf<String>()
         rightText.toCharArray().forEachIndexed { index, c ->
             sb.append(c)
@@ -88,6 +90,52 @@ class PrintUtil(private val config: PrinterConfig) {
             val rightLineText: String? = if (i >= rightTextList.size) null else rightTextList[i]
             val lineStringPair = getTowLineStringPair(leftLineText ?: "", rightLineText ?: "")
             lines.add(lineStringPair)
+        }
+        return lines
+    }
+
+
+    fun getThreeColumnStringLines(
+        leftText: String,
+        middleText: String,
+        rightText: String
+    ): List<String> {
+        val maxLen = config.MAX_BYTE_OF_3_COLUMN
+        val sb = java.lang.StringBuilder()
+        val leftTextList = mutableListOf<String>()
+        leftText.toCharArray().forEachIndexed { index, c ->
+            sb.append(c)
+            if (getBytesLength(sb.toString()) >= maxLen || index == leftText.length - 1) {
+                leftTextList.add(sb.toString())
+                sb.clear()
+            }
+        }
+        sb.clear()
+        val middleTextList = mutableListOf<String>()
+        middleText.toCharArray().forEachIndexed { index, c ->
+            sb.append(c)
+            if (getBytesLength(sb.toString()) >= maxLen || index == middleText.length - 1) {
+                middleTextList.add(sb.toString())
+                sb.clear()
+            }
+        }
+        sb.clear()
+        val rightTextList = mutableListOf<String>()
+        rightText.toCharArray().forEachIndexed { index, c ->
+            sb.append(c)
+            if (getBytesLength(sb.toString()) >= maxLen || index == rightText.length - 1) {
+                rightTextList.add(sb.toString())
+                sb.clear()
+            }
+        }
+        val lines = mutableListOf<String>()
+        val maxLines = max(max(leftTextList.size, rightTextList.size), middleTextList.size)
+        for (i in 0 until maxLines) {
+            val leftLineText: String? = if (i >= leftTextList.size) null else leftTextList[i]
+            val midLineText: String? = if (i >= middleTextList.size) null else middleTextList[i]
+            val rightLineText: String? = if (i >= rightTextList.size) null else rightTextList[i]
+            val lineString = getThreeLineStringLastIndex(leftLineText ?: "", midLineText ?: "", rightLineText ?: "")
+            lines.add(lineString)
         }
         return lines
     }
